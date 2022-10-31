@@ -3,38 +3,55 @@
 	<head>
 		<title>Chat</title>
 		<style>
+body {
+	font-family: monospace;
+}
 .container {
-  border: 2px solid #dedede;
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  margin: 10px 0;
+	border: 2px solid #dedede;
+	background-color: #f1f1f1;
+	border-radius: 5px;
+	margin: 5px 0;
 }
-
 .darker {
-  border-color: #ccc;
-  background-color: #ddd;
+	border-color: #ccc;
+	background-color: #ddd;
 }
-
 .time {
-  color: #999;
+	color: #666;
 	margin-right: 5px;
+}
+#input {
+	position: absolute;
+	bottom: 1em;
 }
 		</style>
 	</head>
 	<body>
-		<p><span id="numConnected">2</span> Connected: <span id="listConnected">ID, another-ID</span></p>
+		<span id="numConnected">2</span> Connected: <span id="listConnected">Some-Guy, Another-Guy</span>
 		<div class="messages">
 			<div class="container">
-				<p><span class="username">Some Guy</span></p>
-				<p><span class="time">11:02</span><span class="message">Some message</span></p>
+				<span class="username">Some Guy</span><br>
+				<span class="time">04:20am</span><span class="message">Some message</span>
 			</div>
 			<div class="container darker">
-				<p><span class="username">Another Guy</span></p>
-				<p><span class="time">11:03</span><span class="message">Another message!</span></p>
+				<span class="username">Another Guy</span><br>
+				<span class="time">11:03am</span><span class="message">My message</span><br>
+				<span class="time">11:04am</span><span class="message">Another message in a row!</span>
+			</div>
+			<div class="container">
+				<span class="username">Some Guy</span><br>
+				<span class="time">11:59am</span><span class="message">Wow that</span><br>
+				<span class="time">12:59pm</span><span class="message">is so</span><br>
+				<span class="time">01:59pm</span><span class="message">cool!!</span><br>
 			</div>
 		</div>
-		<footer>
-			<input type="text" id="message"><button id="send-button">Send</button>
-		</footer>
+		<div id="input">
+			<textarea id="message"></textarea>
+			<button id="send">Send</button>
+		</div>
+		
+		<script>
+			
+		</script>
 	</body>
 </html>
