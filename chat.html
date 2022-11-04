@@ -38,7 +38,7 @@ body {
 	</head>
 	<body>
 		My ID: <span id="myID"></span><br>
-		<span id="numConnected">0</span> Connected: <span id="listConnected"></span>
+		<span id="numConnected">0</span> Connected: <span id="listConnected"></span><button id="addConnected">+</button>
 		<div id="messages">
 			<!-- <div class="container">
 				<span class="username">Some Guy</span><br>
@@ -64,25 +64,35 @@ body {
 			var myID = document.getElementById('myID');
 			var numConnected = document.getElementById('numConnected');
 			var connected = [];
+			var addConnected = document.getElementById('addConnected');
 			var messages = document.getElementById('messages');
+			var message = document.getElementById('message');
 			var peer = new Peer();
 			peer.on('open', function(id) {
 				myID.innerText = peer.id;
 			});
 			peer.on('connection', function(dataConnection) {
-				connected.push(peer.id);
+				connected.push(dataConnection.peer);
 				numConnected.innerText = connected.length;
 				listConnected.innerText = connected.join();
 				dataConnection.on('data', function(data) {
-					var message = Document.createElement('div');
-					message.class = 'container darker';
-					message.innerHTML = `<span class="username">data</span><br>`
-					messages.appendChild('message');
+					addMessage(data, peer.id);
+					console.log(data);
 				});
 				dataConnection.on('disconnect', function() {
 					
 				});
 			});
+			function addMessage (msg, id) {
+				var message = document.createElement('div');
+				message.classList.add('container');
+				var time = new Date().toLocaleTimeString();
+				message.innerHTML = `<span class="id">${id}</span><br><span class="time">${time}</span><span class="msg">${msg}</span>`
+				messages.appendChild(message);
+			}
+			addConnected.addEventListener('click', function () {
+				peer.connect(prompt('New ID:'));
+			 });
 		</script>
 	</body>
 </html>
