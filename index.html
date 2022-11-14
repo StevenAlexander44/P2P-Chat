@@ -94,7 +94,7 @@ body {
 			});
 			peer.on('connection', function(dataConnection) {
 				connected[dataConnection.peer] = dataConnection;
-				dataConnection.on('data', function(data) {
+				connected[dataConnection.peer].on('data', function(data) {
 					addMessage(data, dataConnection.peer);
 					console.log(data);
 				});
