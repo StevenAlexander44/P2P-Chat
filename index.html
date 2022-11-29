@@ -38,8 +38,8 @@ body {
 		</style>
 	</head>
 	<body>
-		My ID: <span id="myID"></span><br>
-		<span id="numConnected">0</span> Connected: <span id="listConnected"></span><span> </span><button id="addConnected">+</button>
+		My ID:<span id="myID"></span><br>
+		<span id="numConnected">0</span> Connected:<span id="listConnected"></span><span> </span><button id="addConnected">+</button>
 		<div id="messages"></div>
 		<div id="input">
 			<textarea id="message"></textarea>
@@ -54,7 +54,7 @@ body {
 			var messages = document.getElementById('messages');
 			var message = document.getElementById('message');
 			var send = document.getElementById('send');
-			var peer = new Peer();
+			var peer = new Peer(prompt("Enter an ID, otherwise a random UUID will be chosen:"));
 			peer.on('open', function(id) {
 				if (otherID) { addConnection(otherID) }
 				location.hash = peer.id;
@@ -70,9 +70,6 @@ body {
 					console.log(data);
 				});
 				updateConnections();
-			}
-			function removeConnection([id]) {
-				delete connected[id];
 			}
 			function updateConnections() {
 				numConnected.innerText = Object.keys(connected).length;
