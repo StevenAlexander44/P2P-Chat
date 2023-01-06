@@ -91,18 +91,19 @@ body {
 				addConnection(prompt('New ID:'));
 			});
 			function sendMessage() {
-				addMessage(message.value, '')
-				for (let id in connected) {
-					connected[id].send(message.value)
-				}
+				const msg = "<pre>"+message.value+"</pre";
 				message.value = "";
+				addMessage(msg, '');
+				for (let id in connected) {
+					connected[id].send(msg)
+				}
 			}
 			send.addEventListener('click', function () {
-				sendMessage();
+				sendMessage()
 			});
 			message.addEventListener('keyup',function(e) {
 				if(e.which == 13) {
-					sendMessage();
+					sendMessage()
 				}
 			});
 		</script>
