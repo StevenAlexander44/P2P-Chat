@@ -1,4 +1,4 @@
-A simple p2p chat using [PeerJS](https://peerjs.com) to connect peers together
+A [simple p2p chat](stevenalexander44.github.io) using [PeerJS](https://peerjs.com) to connect peers together
 
 
 TODO:
