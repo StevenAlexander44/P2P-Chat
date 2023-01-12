@@ -84,14 +84,15 @@ body {
 					id = 'me'
 				}
 				var time = new Date().toLocaleTimeString();
-				container.innerHTML = `<span class="id">${id}</span><br><span class="time">${time}</span><span class="msg">${msg}</span>`
+				container.innerHTML = `<span class="id">${id}</span><br><span class="time">${time}</span><pre class="msg"></pre>`
+				container.getElementsByClassName("msg")[0].innerText = msg;
 				messages.appendChild(container);
 			}
 			addConnected.addEventListener('click', function () {
 				addConnection(prompt('New ID:'));
 			});
 			function sendMessage() {
-				const msg = "<pre>"+message.value+"</pre";
+				const msg = message.value;
 				message.value = "";
 				addMessage(msg, '');
 				for (let id in connected) {
