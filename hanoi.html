@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="user-scalable=no"/>
+		<style>
+html, body, table{
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	user-select: none;
+	table-layout: fixed;
+}
+th{
+	border: 12px solid;
+	border-radius: 16px;
+	font: 48px monospace;
+	word-spacing: 50vw;
+}
+		</style>
+		<script>
+var map = {1:[1,2,3],2:[0],3:[0],4:[0]};
+var oldRod = 1;
+var oldValue = 0;
+const clicked = e => {
+	element = e.srcElement;
+	rod = element.id;
+	value = map[rod][0];
+	elementNotSelected = (oldRod == rod || oldRod == 0);
+	lastElementIsZero = (map[oldRod][0] == 0);
+	if (elementNotSelected) {
+		element.style.background = 'gray';
+		oldRod = rod;
+		// start dragging number
+		oldValue = map[oldRod].unshift();
+		alert("Remove "+value);
+	} else if (lastElementIsZero) {
+		alert("Can't move value 0");
+	} else { // if elementSelected
+		if (oldRod != rod && Math.abs(oldRod - rod) < 3) {
+			alert("Move value "+oldValue+" from rod "+oldRod+" to rod "+rod+" to push over "+value);
+			if (oldValue > value) {
+				alert("Successful move")
+			} else {
+				alert("Unsuccessful move")
+			}
+		} else {
+			alert("Leave disk on rod "+oldRod);
+		}
+		oldRod = 0;
+	}
+	oldValue = value;
+}
+window.onload = function() {
+	for (let i of document.getElementsByTagName("th")) {
+		i.addEventListener("click", clicked);
+		display(i.id)
+	}
+}
+function display(id) {
+	document.getElementById(id).innerText = map[id].join(' ')
+}
+		</script>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td></td>
+				<th id="2"></th>
+				<td></td>
+			</tr>
+			<tr>
+				<th id="1"></th>
+				<td></td>
+				<th id="4"></th>
+			</tr>
+			<tr>
+				<td></td>
+				<th id="3"></th>
+				<td></td>
+			</tr>
+		</table>
+	</body>
+</html>
