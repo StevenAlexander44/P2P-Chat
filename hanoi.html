@@ -21,13 +21,17 @@ th{
 	font: 44px monospace;
 	word-spacing: 100vw;
 }
-td{
-	user-select: text;
+#undo{
+	font: 48px monospace;
+	text-align: center;
+}
+#center{
 	font: 24px monospace;
 }
 #list{
 	font: 12px monospace;
 	height: calc(100% - 26px);
+	user-select: text;
 	overflow: scroll;
 	overflow-x: hidden;
 }
@@ -60,13 +64,22 @@ function moveDisk(o, n) { // move disk from old to new rod
 		o.innerText = oldDisks.join(' ');
 		n.innerText = newDisks.join(' ');
 		var moves = document.getElementById("moves");
-		moves.innerText++;
+		moves.innerText = list.innerText.split("\n").length;
 		//var list = document.getElementById("list");
 		list.innerText += "\n"+o.id+" to "+n.id;
 		console.log(o.id+" to "+n.id);
 	}
 }
-function undo() { alert("maybe later") }
+function undo() {
+	var list = document.getElementById("list");
+	var text = list.innerText.split('\n');
+	var numbers = text.pop().split(' to ');
+	moveDisk(document.getElementById(numbers[1]), document.getElementById(numbers[0]));
+	list.innerText = text.join('\n');
+	var moves = document.getElementById("moves");
+	moves.innerText = list.innerText.split("\n").length-1;
+
+}
 window.onload = function(){
 	const num = prompt("How many starting disks?") || 6;
 	var arr = []
@@ -90,6 +103,8 @@ window.addEventListener("keydown",e => {
 		case "ArrowRight":
 		case "d":
 			num = 4; break;
+		case "z":
+			undo(); return;
 		default:
 			return;
 	}
@@ -102,11 +117,11 @@ window.addEventListener("keydown",e => {
 			<tr>
 				<td></td>
 				<th id="2" onclick="rod(2)"></th>
-				<td></td>
+				<td id="undo" onclick="undo()">Undo</td>
 			</tr>
 			<tr>
 				<th id="1" onclick="rod(1)"></th>
-				<td >Moves: <span id="moves">0</span><div id="list"></div></td>
+				<td id="center">Moves: <span id="moves">0</span><div id="list"></div></td>
 				<th id="4" onclick="rod(4)"></th>
 			</tr>
 			<tr>
