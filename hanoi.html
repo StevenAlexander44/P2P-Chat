@@ -10,72 +10,108 @@ html, body, table{
 	user-select: none;
 	table-layout: fixed;
 }
+tr{
+	width: 33%;
+	height: 33%;
+}
 th{
 	border: 12px solid;
+	align-items: stretch;
 	border-radius: 16px;
-	font: 48px monospace;
-	word-spacing: 50vw;
+	font: 44px monospace;
+	word-spacing: 100vw;
+}
+td{
+	user-select: text;
+	font: 24px monospace;
+}
+#list{
+	font: 12px monospace;
+	height: calc(100% - 26px);
+	overflow: scroll;
+	overflow-x: hidden;
 }
 		</style>
 		<script>
-var map = {1:[1,2,3],2:[0],3:[0],4:[0]};
-var oldRod = 1;
-var oldValue = 0;
-const clicked = e => {
-	element = e.srcElement;
-	rod = element.id;
-	value = map[rod][0];
-	elementNotSelected = (oldRod == rod || oldRod == 0);
-	lastElementIsZero = (map[oldRod][0] == 0);
-	if (elementNotSelected) {
-		element.style.background = 'gray';
-		oldRod = rod;
-		// start dragging number
-		oldValue = map[oldRod].unshift();
-		alert("Remove "+value);
-	} else if (lastElementIsZero) {
-		alert("Can't move value 0");
-	} else { // if elementSelected
-		if (oldRod != rod && Math.abs(oldRod - rod) < 3) {
-			alert("Move value "+oldValue+" from rod "+oldRod+" to rod "+rod+" to push over "+value);
-			if (oldValue > value) {
-				alert("Successful move")
-			} else {
-				alert("Unsuccessful move")
-			}
-		} else {
-			alert("Leave disk on rod "+oldRod);
+var sourceElement;
+function rod(n) {
+	var newElement = document.getElementById(n);
+	if (sourceElement == null) { // No peg selected
+		if (newElement.innerText.split(' ')[0] == 0) { // If top disk == 0
+			return console.log(newElement.id+" - can't move nothing")
 		}
-		oldRod = 0;
+		newElement.style.background = 'gray'; // Highlight selected element
+		sourceElement = newElement; // Old is new
+	} else { // Peg is selected
+		if (Math.abs(sourceElement.id - newElement.id) == 3 || sourceElement == newElement) { // 1-4 == 3 or 4-1 == 3 or New peg is same as old peg
+			console.log(sourceElement.id+" - can't move to "+newElement.id);
+		} else {
+			moveDisk(sourceElement, newElement);
+		}
+		sourceElement.style.background = '';
+		sourceElement = null;
 	}
-	oldValue = value;
 }
-window.onload = function() {
-	for (let i of document.getElementsByTagName("th")) {
-		i.addEventListener("click", clicked);
-		display(i.id)
+function moveDisk(o, n) { // move disk from old to new rod
+	oldDisks = o.innerText.split(' ');
+	newDisks = n.innerText.split(' ');
+	if (oldDisks[0] < newDisks[0] || newDisks[0] == '') {
+		newDisks.unshift(oldDisks.shift());
+		o.innerText = oldDisks.join(' ');
+		n.innerText = newDisks.join(' ');
+		var moves = document.getElementById("moves");
+		moves.innerText++;
+		//var list = document.getElementById("list");
+		list.innerText += "\n"+o.id+" to "+n.id;
+		console.log(o.id+" to "+n.id);
 	}
 }
-function display(id) {
-	document.getElementById(id).innerText = map[id].join(' ')
+function undo() { alert("maybe later") }
+window.onload = function(){
+	const num = prompt("How many starting disks?") || 6;
+	var arr = []
+	for (i = 1; i <= num; i++) {
+		arr.push(i)
+	}
+	document.getElementById(1).innerText = arr.join(' ')
 }
+window.addEventListener("keydown",e => {
+	var num;
+	switch(e.key) {
+		case "ArrowLeft":
+		case "a":
+			num = 1; break;
+		case "ArrowUp":
+		case "w":
+			num = 2; break;
+		case "ArrowDown":
+		case "s":
+			num = 3; break;
+		case "ArrowRight":
+		case "d":
+			num = 4; break;
+		default:
+			return;
+	}
+	rod(num)
+})
 		</script>
 	</head>
 	<body>
 		<table>
 			<tr>
 				<td></td>
-				<th id="2"></th>
+				<th id="2" onclick="rod(2)"></th>
 				<td></td>
 			</tr>
 			<tr>
-				<th id="1"></th>
-				<td></td>
-				<th id="4"></th>
+				<th id="1" onclick="rod(1)"></th>
+				<td >Moves: <span id="moves">0</span><div id="list"></div></td>
+				<th id="4" onclick="rod(4)"></th>
 			</tr>
 			<tr>
 				<td></td>
-				<th id="3"></th>
+				<th id="3" onclick="rod(3)"></th>
 				<td></td>
 			</tr>
 		</table>
