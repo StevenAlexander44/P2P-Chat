@@ -21,8 +21,10 @@ th{
 	word-spacing: 100vw;
 	background-size: cover;
 	background-position: center;
+	text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+	color: white;
 }
-#undo{
+#undo,#reset{
 	font: 48px monospace;
 	text-align: center;
 }
@@ -132,7 +134,7 @@ window.addEventListener("keydown",e => {
 	<body>
 		<table>
 			<tr>
-				<td></td>
+				<td id="reset" onclick="location.reload()">Reset</td>
 				<th id="2" onclick="rod(2)"></th>
 				<td id="undo" onclick="undo()">Undo</td>
 			</tr>
