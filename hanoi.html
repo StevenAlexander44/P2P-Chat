@@ -157,18 +157,18 @@ window.addEventListener("keydown",e => {
 	<body>
 		<table>
 			<tr>
-				<td id="reset" onclick="location.reload()">Reset</td>
-				<th id="2" onclick="rod(2)"></th>
-				<td id="undo" onclick="undo()">Undo</td>
+				<td id="reset" onmousedown="location.reload()">Reset</td>
+				<th id="2" onmousedown="rod(2)"></th>
+				<td id="undo" onmousedown="undo()">Undo</td>
 			</tr>
 			<tr>
-				<th id="1" onclick="rod(1)"></th>
+				<th id="1" onmousedown="rod(1)"></th>
 				<td id="center">Moves: <span id="moves">0</span><div id="list"></div></td>
-				<th id="4" onclick="rod(4)"></th>
+				<th id="4" onmousedown="rod(4)"></th>
 			</tr>
 			<tr>
 				<td></td>
-				<th id="3" onclick="rod(3)"></th>
+				<th id="3" onmousedown="rod(3)"></th>
 				<td></td>
 			</tr>
 		</table>
