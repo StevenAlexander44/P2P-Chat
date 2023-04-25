@@ -24,17 +24,18 @@ th{
 	text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 	color: white;
 }
-#undo,#reset{
+td{
 	font: 48px monospace;
 	text-align: center;
 }
 #center{
 	font: 24px monospace;
+	text-align: left;
+	user-select: text;
 }
 #list{
 	font: 12px monospace;
 	height: calc(100% - 26px);
-	user-select: text;
 	overflow: scroll;
 	overflow-x: hidden;
 }
@@ -75,8 +76,10 @@ function rod(n) {
 	}
 }
 function resetSource() {
-	sourceElement.style.background = '';
-	sourceElement = null;
+	if (sourceElement) {
+		sourceElement.style.background = '';
+		sourceElement = null;
+	}
 }
 function moveDisk(o, n) { // move disk from old to new rod
 	oldDisks = o.innerText.split(' ');
@@ -105,13 +108,22 @@ function undo() {
 	moves.innerText = list.innerText.split("\n").length-1;
 	resetSource()
 }
+function cheat() {
+	moves.innerText = 0;
+	list.innerText = '';
+	var one = document.getElementById(1);
+	var two = document.getElementById(2);
+	two.innerText = one.innerText;
+	one.innerText = '';
+}
 window.onload = function(){
-	const num = prompt("How many starting disks?") || 6;
+	const num = prompt("How many starting disks?",6) || 6;
 	var arr = []
 	for (i = 1; i <= num; i++) {
 		arr.push(i*10);
 	}
-	document.getElementById(1).innerText = arr.join(' ')
+	const cheat = prompt("Starting rod? (cheat for me and trent to make the video)",1) || 1;
+	document.getElementById(cheat).innerText = arr.join(' ')
 }
 window.addEventListener("keydown",e => {
 	var num;
