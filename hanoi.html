@@ -59,21 +59,24 @@ th{
 var sourceElement;
 function rod(n) {
 	var newElement = document.getElementById(n);
-	if (sourceElement == null) { // No peg selected
+	if (sourceElement == null) { // New rod is selected
 		if (newElement.innerText.split(' ')[0] == 0) { // If top disk == 0
 			return console.log(newElement.id+" - can't move nothing")
 		}
 		newElement.style.background = 'gray'; // Highlight selected element
 		sourceElement = newElement; // Old is new
-	} else { // Peg is selected
-		if (Math.abs(sourceElement.id - newElement.id) == 3 || sourceElement == newElement) { // 1-4 == 3 or 4-1 == 3 or New peg is same as old peg
+	} else { // Attempt to move disk
+		if (Math.abs(sourceElement.id - newElement.id) == 3 || sourceElement == newElement) { // abs(1-4 || 4-1) == 3 or New peg is same as old peg
 			console.log(sourceElement.id+" - can't move to "+newElement.id);
 		} else {
 			moveDisk(sourceElement, newElement);
 		}
-		sourceElement.style.background = '';
-		sourceElement = null;
+		resetSource()
 	}
+}
+function resetSource() {
+	sourceElement.style.background = '';
+	sourceElement = null;
 }
 function moveDisk(o, n) { // move disk from old to new rod
 	oldDisks = o.innerText.split(' ');
@@ -82,28 +85,31 @@ function moveDisk(o, n) { // move disk from old to new rod
 		newDisks.unshift(oldDisks.shift());
 		o.innerText = oldDisks.join(' ');
 		n.innerText = newDisks.join(' ');
-		var moves = document.getElementById("moves");
-		moves.innerText = list.innerText.split("\n").length;
-		//var list = document.getElementById("list");
-		list.innerText += "\n"+o.id+" to "+n.id;
 		console.log(o.id+" to "+n.id);
+		var houses = {"1":"Slytherin","2":"Ravenclaw","3":"Hufflepuff","4":"Gryffindor"};
+		var ol = houses[o.id];
+		var ne = houses[n.id];
+		moves.innerText = list.innerText.split("\n").length;
+		list.innerText += "\n"+newDisks[0]+" points from "+ol+" to "+ne;
 	}
 }
 function undo() {
-	var list = document.getElementById("list");
 	var text = list.innerText.split('\n');
 	var numbers = text.pop().split(' to ');
-	moveDisk(document.getElementById(numbers[1]), document.getElementById(numbers[0]));
+	numbers[0] = numbers[0].split(' to ')[0].split('from ')[1];
+	var houses = {"Slytherin":"1","Ravenclaw":"2","Hufflepuff":"3","Gryffindor":"4"};
+	var from = houses[numbers[1]];
+	var to = houses[numbers[0]];
+	moveDisk(document.getElementById(from), document.getElementById(to));
 	list.innerText = text.join('\n');
-	var moves = document.getElementById("moves");
 	moves.innerText = list.innerText.split("\n").length-1;
-
+	resetSource()
 }
 window.onload = function(){
 	const num = prompt("How many starting disks?") || 6;
 	var arr = []
 	for (i = 1; i <= num; i++) {
-		arr.push(i)
+		arr.push(i*10);
 	}
 	document.getElementById(1).innerText = arr.join(' ')
 }
