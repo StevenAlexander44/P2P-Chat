@@ -109,21 +109,13 @@ function undo() {
 	moves.innerText = list.innerText.split("\n").length-1;
 	resetSource()
 }
-function cheat() {
-	moves.innerText = 0;
-	list.innerText = '';
-	var one = document.getElementById(1);
-	var two = document.getElementById(2);
-	two.innerText = one.innerText;
-	one.innerText = '';
-}
 window.onload = function(){
-	const num = prompt("How many starting disks?",6) || 6;
+	const num = prompt("How many starting disks?",6) || 4;
 	var arr = []
 	for (i = 1; i <= num; i++) {
 		arr.push(i*10);
 	}
-	const cheat = prompt("Starting rod? (cheat for me and trent to make the video)",1) || 1;
+	const cheat = prompt("Cheat code?","1") || 1;
 	document.getElementById(cheat).innerText = arr.join(' ')
 }
 window.addEventListener("keydown",e => {
